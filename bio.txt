@@ -7,7 +7,7 @@ PERSONAL DATA
 Name:        Nico Stengel
 Age:         23
 Address:     Freiherr-vom-Stein-Straße 2, 93049 Regensburg
-Email:       nico-stengel@outlook.de
+Email:       nico.stengel@outlook.de
 Phone:       +49 15151700704
 
 EDUCATION & ACADEMIC PATH
