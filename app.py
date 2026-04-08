@@ -26,6 +26,12 @@ st.markdown("""
     section[data-testid="stSidebar"] .stMarkdown {
         color: #f1f5f9;
     }
+    /* Zentriert das Bild in der Sidebar und entfernt Hintergründe */
+    [data-testid="stSidebar"] [data-testid="stImage"] {
+        display: flex;
+        justify-content: center;
+        background-color: transparent;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -40,27 +46,11 @@ my_resume_data = load_bio()
 api_key = st.secrets.get("GROQ_API_KEY")
 
 with st.sidebar:
+    # Bitmojie fest oben ohne Drehung
+    # Falls das Bild einen weißen Rand hat, sorgt 'mix-blend-mode: multiply' bei dunkler Sidebar oft für Transparenz
     bitmojie_url = "https://raw.githubusercontent.com/ZimbuleOTH/Resume/main/Bitmojie.png"
     
-    memoji_html = f"""
-    <div id="memoji-container" style="display: flex; justify-content: center; align-items: center; padding: 10px;">
-        <img id="memoji" src="{bitmojie_url}" 
-             style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid #3b82f6; 
-             transition: transform 0.1s ease-out; object-fit: cover; background-color: #f8f9fa;">
-    </div>
-    <script>
-    const image = document.getElementById('memoji');
-    window.parent.document.addEventListener('mousemove', (e) => {{
-        const rect = image.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const angleRad = Math.atan2(e.clientY - centerY, e.clientX - centerX);
-        const angleDeg = angleRad * 180 / Math.PI;
-        image.style.transform = `rotate(${{angleDeg + 90}}deg)`; 
-    }});
-    </script>
-    """
-    components.html(memoji_html, height=160)
+    st.image(bitmojie_url, width=150)
 
     st.title("Nico Stengel")
     st.subheader("AI & Data Science Student")
