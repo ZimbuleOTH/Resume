@@ -1,14 +1,13 @@
 import streamlit as st
 from groq import Groq
+import os
 
-# --- 1. PAGE CONFIG & STYLING ---
 st.set_page_config(
     page_title="Nico Stengel - AI Twin", 
     page_icon="🤖", 
     layout="centered"
 )
 
-# Custom CSS for a professional, modern look
 st.markdown("""
     <style>
     .main {
@@ -19,7 +18,6 @@ st.markdown("""
         border: 1px solid #e0e0e0;
         box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
     }
-    /* Sidebar styling */
     section[data-testid="stSidebar"] {
         background-color: #1e293b;
         color: white;
@@ -30,7 +28,6 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- 2. LOAD DATA ---
 def load_bio():
     try:
         with open("bio.txt", "r", encoding="utf-8") as f:
@@ -40,18 +37,15 @@ def load_bio():
 
 my_resume_data = load_bio()
 
-# --- 3. API KEY LOGIC (HYBRID) ---
-# Automatically pulls from Streamlit Cloud Secrets or local input
 api_key = st.secrets.get("GROQ_API_KEY")
 
-# --- 4. SIDEBAR (PROFESSIONAL PROFILE) ---
 with st.sidebar:
     st.title("👤 Nico Stengel")
     st.subheader("AI & Data Science Student")
     
     st.markdown("---")
     st.markdown("### 📞 Contact Details")
-    st.markdown("📧 [Email Nico](mailto:nico.stengel@outlook.de)")
+    st.markdown("📧 [Email Nico](mailto:nico-stengel@outlook.de)")
     st.markdown("📱 +49 15151700704")
     st.markdown("📍 Regensburg, Germany")
     
@@ -61,7 +55,6 @@ with st.sidebar:
     st.markdown("✅ **LMU Klinikum** Developer")
     st.markdown("✅ **OTH Regensburg** Student")
     
-    # API Key Input (only visible if Secret is missing)
     if not api_key:
         st.markdown("---")
         api_key = st.text_input("Enter Groq API Key to chat", type="password")
@@ -69,11 +62,9 @@ with st.sidebar:
         st.markdown("---")
         st.success("🤖 AI Engine: Online")
 
-# --- 5. MAIN INTERFACE ---
 st.title("🤖 Chat with Nico's Digital Twin")
 st.write("I am Nico's personal AI representative. Ask me anything about his professional journey, technical expertise, or current projects.")
 
-# Initializing Chat History with the "Agent Persona"
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {
@@ -93,31 +84,30 @@ if "messages" not in st.session_state:
         }
     ]
 
-# Display Chat Messages
 for message in st.session_state.messages:
     if message["role"] != "system":
         avatar = "🧑‍💻" if message["role"] == "user" else "🤖"
         with st.chat_message(message["role"], avatar=avatar):
             st.markdown(message["content"])
 
-# --- 6. CHAT LOGIC ---
 if api_key:
     try:
         client = Groq(api_key=api_key)
         
         if prompt := st.chat_input("Ask me about Nico's experience or skills..."):
-            # Add User Message
+            with open("logs.txt", "a", encoding="utf-8") as f:
+                f.write(f"User Question: {prompt}\n")
+
             st.session_state.messages.append({"role": "user", "content": prompt})
             with st.chat_message("user", avatar="🧑‍💻"):
                 st.markdown(prompt)
 
-            # Generate Agent Response
             with st.chat_message("assistant", avatar="🤖"):
                 response_placeholder = st.empty()
                 full_response = ""
                 
                 completion = client.chat.completions.create(
-                    model="llama-3.1-8b-instant",
+                    model="llama-3.3-70b-versatile",
                     messages=st.session_state.messages,
                     stream=True,
                 )
@@ -136,6 +126,5 @@ if api_key:
 else:
     st.warning("Please provide a Groq API Key in the sidebar or Secrets to start the chat.")
 
-# --- 7. SUGGESTION FOOTER ---
 st.markdown("---")
 st.caption("Try asking: 'What was Nico's impact at BMW?' or 'What are his core technical skills?'")
