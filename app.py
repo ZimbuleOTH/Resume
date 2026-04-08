@@ -1,6 +1,7 @@
 import streamlit as st
 from groq import Groq
 import os
+import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title="Nico Stengel - AI Twin", 
@@ -36,11 +37,32 @@ def load_bio():
         return "Error: bio.txt not found. Please ensure the file exists."
 
 my_resume_data = load_bio()
-
 api_key = st.secrets.get("GROQ_API_KEY")
 
 with st.sidebar:
-    st.title("👤 Nico Stengel")
+    bitmojie_url = "https://raw.githubusercontent.com/ZimbuleOTH/Resume/main/Bitmojie.png"
+    
+    memoji_html = f"""
+    <div id="memoji-container" style="display: flex; justify-content: center; align-items: center; padding: 10px;">
+        <img id="memoji" src="{bitmojie_url}" 
+             style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid #3b82f6; 
+             transition: transform 0.1s ease-out; object-fit: cover; background-color: #f8f9fa;">
+    </div>
+    <script>
+    const image = document.getElementById('memoji');
+    window.parent.document.addEventListener('mousemove', (e) => {{
+        const rect = image.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const angleRad = Math.atan2(e.clientY - centerY, e.clientX - centerX);
+        const angleDeg = angleRad * 180 / Math.PI;
+        image.style.transform = `rotate(${{angleDeg + 90}}deg)`; 
+    }});
+    </script>
+    """
+    components.html(memoji_html, height=160)
+
+    st.title("Nico Stengel")
     st.subheader("AI & Data Science Student")
     
     st.markdown("---")
@@ -58,9 +80,15 @@ with st.sidebar:
     if not api_key:
         st.markdown("---")
         api_key = st.text_input("Enter Groq API Key to chat", type="password")
-    else:
-        st.markdown("---")
-        st.success("🤖 AI Engine: Online")
+    
+    st.markdown("---")
+    admin_password = st.text_input("Admin Access", type="password", placeholder="Enter code")
+    if admin_password and admin_password == st.secrets.get("ADMIN_PASSWORD"):
+        if os.path.exists("logs.txt"):
+            with open("logs.txt", "r", encoding="utf-8") as f:
+                st.download_button("📥 Download Logs", f.read(), file_name="nico_ai_logs.txt")
+        else:
+            st.info("No logs yet.")
 
 st.title("🤖 Chat with Nico's Digital Twin")
 st.write("I am Nico's personal AI representative. Ask me anything about his professional journey, technical expertise, or current projects.")
@@ -71,15 +99,9 @@ if "messages" not in st.session_state:
             "role": "system", 
             "content": f"""
             ROLE: You are the professional Digital Twin and exclusive representative of Nico Stengel. 
-            CONTEXT: You know Nico's entire professional history based on this data: {my_resume_data}
-            
-            YOUR COMMUNICATION STYLE:
-            1. PERSPECTIVE: Speak as Nico's well-informed agent. NEVER say "the document says" or "according to the text". 
-            2. PHRASING: Use phrases like "Nico spent three years at BMW...", "He is currently mastering AI at OTH...", or "One of Nico's core strengths is...".
-            3. TONE: Professional, tech-savvy, and highly supportive of Nico's career goals.
-            4. LANGUAGE: Always respond in ENGLISH.
-            5. LIMITS: If information is missing, politely steer the conversation back to his professional profile and offer his contact details.
-            6. DIRECTNESS: Be concise but impressive.
+            CONTEXT: You know Nico's entire professional history: {my_resume_data}
+            STYLE: Speak as Nico's agent. Use phrases like "Nico spent three years at BMW...". 
+            Always respond in ENGLISH. Be professional and concise.
             """
         }
     ]
@@ -93,7 +115,6 @@ for message in st.session_state.messages:
 if api_key:
     try:
         client = Groq(api_key=api_key)
-        
         if prompt := st.chat_input("Ask me about Nico's experience or skills..."):
             with open("logs.txt", "a", encoding="utf-8") as f:
                 f.write(f"User Question: {prompt}\n")
@@ -105,43 +126,22 @@ if api_key:
             with st.chat_message("assistant", avatar="🤖"):
                 response_placeholder = st.empty()
                 full_response = ""
-                
                 completion = client.chat.completions.create(
                     model="llama-3.3-70b-versatile",
                     messages=st.session_state.messages,
                     stream=True,
                 )
-                
                 for chunk in completion:
                     content = chunk.choices[0].delta.content
                     if content:
                         full_response += content
                         response_placeholder.markdown(full_response + "▌")
-                
                 response_placeholder.markdown(full_response)
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
-            
     except Exception as e:
         st.error(f"AI Connection Error: {e}")
 else:
-    st.warning("Please provide a Groq API Key in the sidebar or Secrets to start the chat.")
+    st.warning("Please provide a Groq API Key to start.")
 
 st.markdown("---")
-st.caption("Try asking: 'What was Nico's impact at BMW?' or 'What are his core technical skills?'")
-with st.sidebar:
-    st.markdown("---")
-    input_password = st.text_input("Admin Access", type="password", placeholder="Enter code")
-    if input_password and input_password == st.secrets.get("ADMIN_PASSWORD"):
-        st.success("Admin Mode Active")
-        if os.path.exists("logs.txt"):
-            with open("logs.txt", "r", encoding="utf-8") as f:
-                st.download_button(
-                    label="📥 Download Logs",
-                    data=f.read(),
-                    file_name="nico_ai_logs.txt",
-                    mime="text/plain"
-                )
-        else:
-            st.info("No logs recorded yet.")
-    elif input_password:
-        st.error("Access Denied")
+st.caption("Try asking: 'What was Nico's impact at BMW?'")
