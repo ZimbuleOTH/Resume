@@ -30,7 +30,11 @@ my_resume_data = load_bio()
 
 with st.sidebar:
     st.title("Settings")
-    api_key = st.text_input("Enter Groq API Key", type="password")
+    if "GROQ_API_KEY" in st.secrets:
+        api_key = st.secrets["GROQ_API_KEY"]
+        st.success("API Key loaded from secrets!")
+    else:
+        api_key = st.text_input("Enter Groq API Key", type="password")
     st.markdown("---")
     st.markdown("### Quick Facts")
     st.markdown("- **Name:** Nico Stengel")
