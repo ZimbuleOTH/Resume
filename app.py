@@ -45,7 +45,7 @@ with st.sidebar:
     
     st.markdown("---")
     st.markdown("### 📞 Contact Details")
-    st.markdown("📧 [Email Nico](mailto:nico-stengel@outlook.de)")
+    st.markdown("📧 [Nico's Mail](mailto:nico.stengel@hotmail.com)")
     st.markdown("📱 +49 15151700704")
     st.markdown("📍 Regensburg, Germany")
     
