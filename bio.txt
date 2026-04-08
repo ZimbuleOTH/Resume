@@ -4,63 +4,74 @@
 
 PERSONAL DATA
 -------------
-Name:        Nico Stengel
-Age:         23
-Address:     Freiherr-vom-Stein-Straße 2, 93049 Regensburg
-Email:       nico.stengel@outlook.de
-Phone:       +49 15151700704
+Name:          Nico Stengel
+Date of Birth: 23. August 2002
+Address:       Freiherr-vom-Stein-Straße 2, 93049 Regensburg
+Email:         nico-stengel@outlook.de
+Phone:         +49 15151700704
 
 EDUCATION & ACADEMIC PATH
 -------------------------
-2024 - Present:  B.Sc. Artificial Intelligence & Data Science
-                 OTH Regensburg (University of Applied Sciences)
+2024 - Present: B.Sc. Artificial Intelligence & Data Science
+                OTH Regensburg (University of Applied Sciences)
 
-2018 - 2021:     Vocational Training: IT Specialist for Application Development
-                 BMW Group (Certified Degree)
-                 Focus: Python server projects, Angular web apps, SQL
+2018 - 2021:    Vocational Training: IT Specialist for Application Development
+                BMW Group
+                Focus: Customer-specific software solutions, IT security, 
+                and quality assurance.
 
-2015 - 2018:     Wirtschaftsschule Landshut (Secondary Business School)
-2012 - 2015:     Hans-Leinberger Gymnasium (Grammar School)
-2008 - 2012:     Grundschule Jesenwang (Primary School)
+2015 - 2018:    Wirtschaftsschule Landshut
+2012 - 2015:    Hans-Leinberger Gymnasium
 
 PROFESSIONAL EXPERIENCE
 -----------------------
-Current:         Software Developer at LMU Klinikum
-                 - Software development alongside university studies
+Current:        Software Developer at LMU Klinikum
+                - Software development alongside university studies.
 
-2021 - 2024:     Software Engineer at BMW (Department FG-782)
-                 - Project management for software initiatives
-                 - Global web development & database management
-                 - C# development for AR/VR applications
-                 - Agile methodologies (Scrum/Kanban)
+2021 - 2024:    Software Engineer / Specialist at BMW Group
+                - Lead Change Management: Established and led the IT Change 
+                  Advisory Board (CAB) for the Landshut plant.
+                - Data & Development: Development of Python-based server 
+                  scripts for automated data handling and processing; 
+                  Full-stack development (Angular, Node.js, SQL).
+                - Innovation: Implementation of AR/VR visual assistance 
+                  systems and development of site-specific IT strategies.
+                - Infrastructure: IT lead for long-term plant development 
+                  and SAP STARD release upgrades.
 
 VOLUNTEERING
 ------------
-Role:            Web & Server Administrator
-Organization:    OTH Faculty of International Business and Relations
-Tasks:           Full administration of faculty website and server infrastructure
+Role:           Web & Server Administrator
+Organization:   OTH Faculty of International Business and Relations
+Tasks:          Full administration of faculty website and server infrastructure.
 
 SKILLS
 ------
-Languages:       Python, C#, C, SQL, Web (Angular, HTML/CSS)
-Design:          UI/UX Design, Adobe Photoshop
-Office:          Expert knowledge in Microsoft Office 365
-Languages:       German (Native), English (Business Fluent)
+Languages:      Python (Advanced Data Handling), C++, C, SQL, Java, 
+                Node.js, Web (Angular, HTML/CSS)
+Methodologies:  Agile (Scrum/Kanban), IT Change Management, 
+                Business Impact Analysis (BIA)
+Design:         UI/UX Design, Adobe Photoshop
+Spoken Lang.:   German (Native), English (Business Fluent, Certified Level B2)
 
 PROJECTS
 --------
-- Participant at HackTUM (Hackathon)
-- Freelance Web Development (e.g., dannerhof.de)
+- Python Server Script Development: Design and implementation of scripts 
+  for efficient data handling and backend processing.
+- BMW Innovation: Planning and implementation of AR/VR visual 
+  assistance systems.
+- Hackathon: Participant at HackTUM.
+- Freelance: Web Development (e.g., dannerhof.de, Sagmeister-fotografie.de).
 
 BIO / ABOUT ME
 --------------
-AI & Data Science student at OTH Regensburg with a comprehensive 
-technical background starting from a professional apprenticeship 
-at BMW to full-scale software engineering. Currently applying 
-expertise in software development at LMU Klinikum while managing 
-IT infrastructure for the OTH International Business faculty. 
-Expertise in web technologies, AR/VR, and agile project management.
+AI & Data Science student at OTH Regensburg with a strong foundation in 
+industrial software engineering. I combine technical expertise in Python 
+server development and data handling with strategic experience in leading 
+IT Change Management boards at BMW. My profile is shaped by a transition 
+from practical software engineering to advanced data science, currently 
+applying these skills at LMU Klinikum.
 
 -----------------------------------------
-Last updated: March 26, 2026
+Last updated: April 08, 2026
 =========================================
