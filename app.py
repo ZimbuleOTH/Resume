@@ -130,14 +130,18 @@ st.markdown("---")
 st.caption("Try asking: 'What was Nico's impact at BMW?' or 'What are his core technical skills?'")
 with st.sidebar:
     st.markdown("---")
-    if st.checkbox("Show Admin Tools"):
+    input_password = st.text_input("Admin Access", type="password", placeholder="Enter code")
+    if input_password and input_password == st.secrets.get("ADMIN_PASSWORD"):
+        st.success("Admin Mode Active")
         if os.path.exists("logs.txt"):
             with open("logs.txt", "r", encoding="utf-8") as f:
                 st.download_button(
-                    label="Download Question Logs",
+                    label="📥 Download Logs",
                     data=f.read(),
                     file_name="nico_ai_logs.txt",
                     mime="text/plain"
                 )
         else:
             st.info("No logs recorded yet.")
+    elif input_password:
+        st.error("Access Denied")
