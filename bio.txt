@@ -1,14 +1,14 @@
 =========================================
-           PROFILE INFORMATION
+            PROFILE INFORMATION
 =========================================
 
 PERSONAL DATA
 -------------
-Name:          Nico Stengel
-Date of Birth: 23. August 2002
-Address:       Freiherr-vom-Stein-Straße 2, 93049 Regensburg
-Email:         nico.stengel@hotmail.com
-Phone:         +49 15151700704
+Name:           Nico Stengel
+Date of Birth:  August 23, 2002
+Address:        Freiherr-vom-Stein-Straße 2, 93049 Regensburg
+Email:          nico.stengel@hotmail.com
+Phone:          +49 15151700704
 
 EDUCATION & ACADEMIC PATH
 -------------------------
@@ -41,37 +41,66 @@ Current:        Software Developer at LMU Klinikum
 
 VOLUNTEERING
 ------------
-Role:           Web & Server Administrator
+Organization:   OTH Faculty of Computer Science
+Role:           Creative Lead / Event Design
+Tasks:          Designing professional event posters and promotional 
+                materials using Adobe Photoshop and Illustrator.
+
 Organization:   OTH Faculty of International Business and Relations
+Role:           Web & Server Administrator
 Tasks:          Full administration of faculty website and server infrastructure.
 
 SKILLS
 ------
 Languages:      Python (Advanced Data Handling), C++, C, SQL, Java, 
-                Node.js, Web (Angular, HTML/CSS)
+                Node.js
+Web Dev:        Angular, HTML5/CSS3, Bootstrap, Tailwind CSS, 
+                JavaScript/TypeScript
 Methodologies:  Agile (Scrum/Kanban), IT Change Management, 
                 Business Impact Analysis (BIA)
-Design:         UI/UX Design, Adobe Photoshop
+Design:         UI/UX Design, Adobe Photoshop, Adobe Illustrator, 
+                Figma, Digital Layouting
 Spoken Lang.:   German (Native), English (Business Fluent, Certified Level B2)
 
 PROJECTS
 --------
-- Python Server Script Development: Design and implementation of scripts 
-  for efficient data handling and backend processing.
+**AI & Machine Learning**
+- Audio Genre Classification: Developed a CNN-based system analyzing 
+  spectrogram images to automate music genre labeling.
+- Species Conservation AI: Designed a Convolutional Neural Network (CNN) 
+  for automated bird species identification to support local 
+  biodiversity monitoring.
+
+**Hackathons & Innovation**
+- HackTUM Participant: Engaging in high-pressure, competitive coding 
+  environments to solve complex real-world challenges.
 - BMW Innovation: Planning and implementation of AR/VR visual 
   assistance systems.
-- Hackathon: Participant at HackTUM.
-- Freelance: Web Development (e.g., dannerhof.de, Sagmeister-fotografie.de).
+
+**Design & Web Development**
+- Freelance Web Design: End-to-end design and development for clients 
+  including dannerhof.de and sagmeister-fotografie.de.
+- Frontend Frameworks: Implementing responsive and modern web interfaces 
+  using Bootstrap and contemporary CSS frameworks.
+
+HOBBIES & INTERESTS
+-------------------
+- Classic Car Restoration: Co-owner of a private workshop; focused on 
+  the technical restoration and maintenance of vintage cars.
+- Winter Sports: Passionate skier and snowboarder.
+- Music: Enthusiastic guitar player.
+- Competitive Coding: Regular participation in Hackathons (e.g., HackTUM).
 
 BIO / ABOUT ME
 --------------
-AI & Data Science student at OTH Regensburg with a strong foundation in 
-industrial software engineering. I combine technical expertise in Python 
-server development and data handling with strategic experience in leading 
-IT Change Management boards at BMW. My profile is shaped by a transition 
-from practical software engineering to advanced data science, currently 
-applying these skills at LMU Klinikum.
+AI & Data Science student at OTH Regensburg with a robust background in 
+industrial software engineering. I bridge the gap between technical 
+implementation and creative design—combining expertise in Python and 
+Deep Learning with professional UI/UX skills. Whether I’m solving 
+complex problems at Hackathons, or restoring classic cars in my workshop, 
+I thrive on hands-on challenges and the intersection of innovation 
+and craftsmanship.
 
 -----------------------------------------
-Last updated: April 08, 2026
+Last updated: April 09, 2026
 =========================================
