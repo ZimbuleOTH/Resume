@@ -1,55 +1,71 @@
 import streamlit as st
 from groq import Groq
 import os
-import streamlit.components.v1 as components
+import requests
+import datetime
+from supabase import create_client, Client
 
+# --- SETUP & CONFIG ---
 st.set_page_config(
     page_title="Nico Stengel - AI Twin", 
     page_icon="🤖", 
     layout="centered"
 )
 
+# Supabase Client initialisieren
+@st.cache_resource
+def init_supabase():
+    return create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
+
+supabase = init_supabase()
+
+# --- STYLING ---
 st.markdown("""
     <style>
-    .main {
-        background-color: #f8f9fa;
-    }
+    .main { background-color: #f8f9fa; }
     .stChatMessage {
         border-radius: 12px;
         border: 1px solid #e0e0e0;
         box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
     }
-    section[data-testid="stSidebar"] {
-        background-color: #1e293b;
-        color: white;
-    }
-    section[data-testid="stSidebar"] .stMarkdown {
-        color: #f1f5f9;
-    }
-    /* Zentriert das Bild in der Sidebar und entfernt Hintergründe */
+    section[data-testid="stSidebar"] { background-color: #1e293b; color: white; }
+    section[data-testid="stSidebar"] .stMarkdown { color: #f1f5f9; }
     [data-testid="stSidebar"] [data-testid="stImage"] {
-        display: flex;
-        justify-content: center;
-        background-color: transparent;
+        display: flex; justify-content: center; background-color: transparent;
     }
     </style>
     """, unsafe_allow_html=True)
 
+# --- HELPER FUNCTIONS ---
 def load_bio():
     try:
         with open("bio.txt", "r", encoding="utf-8") as f:
             return f.read()
     except FileNotFoundError:
-        return "Error: bio.txt not found. Please ensure the file exists."
+        return "Error: bio.txt not found."
 
+def log_to_supabase(prompt):
+    """Speichert Query, Zeit und Ort permanent."""
+    try:
+        # Standort abrufen
+        geo = requests.get('https://ipapi.co/json/', timeout=2).json()
+        location = f"{geo.get('city', 'Unknown')}, {geo.get('country_name', '??')}"
+        
+        # In Supabase schreiben
+        supabase.table("logs").insert({
+            "location": location,
+            "query": prompt
+        }).execute()
+    except Exception as e:
+        print(f"Logging failed: {e}")
+
+# --- DATA ---
 my_resume_data = load_bio()
 api_key = st.secrets.get("GROQ_API_KEY")
 
+# --- SIDEBAR ---
 with st.sidebar:
-    # Bitmojie fest oben ohne Drehung
-    # Falls das Bild einen weißen Rand hat, sorgt 'mix-blend-mode: multiply' bei dunkler Sidebar oft für Transparenz
     bitmojie_url = "https://raw.githubusercontent.com/ZimbuleOTH/Resume/main/Bitmojie.png"
-    
     st.image(bitmojie_url, width=150)
 
     st.title("Nico Stengel")
@@ -73,15 +89,20 @@ with st.sidebar:
     
     st.markdown("---")
     admin_password = st.text_input("Admin Access", type="password", placeholder="Enter code")
+    
     if admin_password and admin_password == st.secrets.get("ADMIN_PASSWORD"):
-        if os.path.exists("logs.txt"):
-            with open("logs.txt", "r", encoding="utf-8") as f:
-                st.download_button("📥 Download Logs", f.read(), file_name="nico_ai_logs.txt")
-        else:
-            st.info("No logs yet.")
+        st.success("Admin Mode Active")
+        # Zeige die letzten 10 Logs aus Supabase an
+        if st.button("🔄 Show Live Logs"):
+            res = supabase.table("logs").select("*").order("created_at", desc=True).limit(10).execute()
+            for log in res.data:
+                st.caption(f"📍 {log['location']} | 📅 {log['created_at'][:16]}")
+                st.text(log['query'])
+                st.markdown("---")
 
+# --- MAIN CHAT INTERFACE ---
 st.title("🤖 Chat with Nico's Digital Twin")
-st.write("I am Nico's personal AI representative. Ask me anything about his professional journey, technical expertise, or current projects.")
+st.write("I am Nico's personal AI representative. Ask me anything about his professional journey.")
 
 if "messages" not in st.session_state:
     st.session_state.messages = [
@@ -91,23 +112,27 @@ if "messages" not in st.session_state:
             ROLE: You are the professional Digital Twin and exclusive representative of Nico Stengel. 
             CONTEXT: You know Nico's entire professional history: {my_resume_data}
             STYLE: Speak as Nico's agent. Use phrases like "Nico spent three years at BMW...". 
-            You do not have to responde in English but you do till someone ask you anything in a different language. Be professional and concise.
+            Respond in the language the user uses. Be professional and concise.
             """
         }
     ]
 
+# Nachrichten anzeigen
 for message in st.session_state.messages:
     if message["role"] != "system":
         avatar = "🧑‍💻" if message["role"] == "user" else "🤖"
         with st.chat_message(message["role"], avatar=avatar):
             st.markdown(message["content"])
 
+# Chat Logik
 if api_key:
     try:
         client = Groq(api_key=api_key)
-        if prompt := st.chat_input("Ask me about Nico's experience or skills..."):
-            with open("logs.txt", "a", encoding="utf-8") as f:
-                f.write(f"User Question: {prompt}\n")
+        if prompt := st.chat_input("Ask me about Nico's experience..."):
+            
+            # --- LOGGING START ---
+            log_to_supabase(prompt)
+            # --- LOGGING END ---
 
             st.session_state.messages.append({"role": "user", "content": prompt})
             with st.chat_message("user", avatar="🧑‍💻"):
@@ -128,6 +153,7 @@ if api_key:
                         response_placeholder.markdown(full_response + "▌")
                 response_placeholder.markdown(full_response)
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
+                
     except Exception as e:
         st.error(f"AI Connection Error: {e}")
 else:
